@@ -17,7 +17,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- * Created by arpesh on 7/2/18 4:42 AM Eureka18.
+ * Created by arpesh on 7/2/18 4:42 AM Eureka18 3:16 AM Eureka18.
  */
 
 public class BackgroundWorker extends AsyncTask<String, Void , String> {
@@ -31,6 +31,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
         @Override
     protected String doInBackground(String... strings) {
         String Login_Url = "https://eureka18.000webhostapp.com/login.php";
+
         if(strings[0].equals("Login")){
             try {
                 String user_name = strings[1];
@@ -69,14 +70,18 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
 
         }
+
        return null;
     }
 
     @Override
     protected void onPreExecute() {
+
+
         alertDialog = new AlertDialog.Builder(BackgroundWorkerContext).create();
         alertDialog.setTitle("Login Status");
     }
+
 
     @Override
     protected void onPostExecute(String result) {

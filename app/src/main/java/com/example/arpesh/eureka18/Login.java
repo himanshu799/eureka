@@ -28,7 +28,7 @@ public class Login extends AppCompatActivity {
         SignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),Signup.class));
+                startActivity(new Intent(getApplicationContext(), com.example.arpesh.eureka18.SignIn.class));
             }
         });
     }
