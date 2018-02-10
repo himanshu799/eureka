@@ -2,10 +2,14 @@ package com.example.arpesh.eureka18;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,7 +21,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- * Created by arpesh on 7/2/18 4:42 AM Eureka18 3:16 AM Eureka18.
+ * Created by arpesh on 7/2/18 4:42 AM Eureka18 3:16 AM Eureka18 3:25 AM Eureka18.
  */
 
 public class BackgroundWorker extends AsyncTask<String, Void , String> {
@@ -70,11 +74,47 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
 
         }
+        if(strings[0].equals("register")){
+                return getServerResponse(strings[1]);
+        }
 
        return null;
     }
 
-    @Override
+    private String getServerResponse(String json) {
+        String SignIN_Url = "https://eureka18.000webhostapp.com/Register.php";
+        String data ="";
+        try {
+            URL url = new URL(SignIN_Url);
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setDoInput(true);
+
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes("PostData=" + json);
+            wr.flush();
+            wr.close();
+
+            InputStream in = httpURLConnection.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+            int inputStreamData = inputStreamReader.read();
+            while (inputStreamData != -1) {
+                char current = (char) inputStreamData;
+                inputStreamData = inputStreamReader.read();
+                data += current;}
+
+
+
+    } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+        @Override
     protected void onPreExecute() {
 
 
@@ -85,8 +125,33 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
     @Override
     protected void onPostExecute(String result) {
-        alertDialog.setMessage(result);
-        alertDialog.show();
+       if(result.equals("Login Sucessful")){
+           Toast.makeText(BackgroundWorkerContext.getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+           BackgroundWorkerContext.startActivity(
+                   new Intent
+                   (
+                           BackgroundWorkerContext.getApplicationContext(),
+                           com.example.arpesh.eureka18.UniqueIdGenerator.class
+                   ));
+
+
+       }
+       if(result.equals("Registration Sucessful")){
+           Toast.makeText(BackgroundWorkerContext.getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+           BackgroundWorkerContext.startActivity(
+                   new Intent
+                           (
+                                   BackgroundWorkerContext.getApplicationContext(),
+                                   com.example.arpesh.eureka18.Login.class
+                           ));
+       }
+       if(result.equals("Registration Failed") | result.equals("Login Failed")){
+           Toast.makeText
+                   (
+                           BackgroundWorkerContext.getApplicationContext(),
+                           result,Toast.LENGTH_SHORT
+                   ).show();
+       }
     }
 
     @Override

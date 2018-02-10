@@ -10,10 +10,16 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:orientation="vertical">
+               <EditText
+                   android:id="@+id/activity_signin_UserName"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:hint="User Name"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <EditText
                             android:id="@+id/activity_signin_FirstName"
                             android:layout_width="wrap_content"
@@ -41,6 +47,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Email"
                             android:inputType="textEmailAddress"/>
+
 
 
                     </LinearLayout>
