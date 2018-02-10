@@ -67,9 +67,9 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                 httpURLConnection.disconnect();
                 return result;
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                Log.d("JSon",e.toString());
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.d("JSon",e.toString());
             }
 
 
@@ -91,7 +91,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
             httpURLConnection.setDoInput(true);
 
             DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-            wr.writeBytes("PostData=" + json);
+            wr.writeBytes(json);
             wr.flush();
             wr.close();
 
@@ -107,9 +107,9 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
 
     } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.d("JSon",e.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d("JSon",e.toString());
         }
         return data;
     }
@@ -125,7 +125,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
     @Override
     protected void onPostExecute(String result) {
-       if(result.equals("Login Sucessful")){
+       if(result.equals("Login Sucessful")|result.equals(null)){
            Toast.makeText(BackgroundWorkerContext.getApplicationContext(),result,Toast.LENGTH_SHORT).show();
            BackgroundWorkerContext.startActivity(
                    new Intent
@@ -135,8 +135,8 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                    ));
 
 
-       }
-       if(result.equals("Registration Sucessful")){
+                                                            }
+      else if(result.equals("Registration Sucessful")){
            Toast.makeText(BackgroundWorkerContext.getApplicationContext(),result,Toast.LENGTH_SHORT).show();
            BackgroundWorkerContext.startActivity(
                    new Intent
@@ -144,14 +144,15 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                                    BackgroundWorkerContext.getApplicationContext(),
                                    com.example.arpesh.eureka18.Login.class
                            ));
-       }
-       if(result.equals("Registration Failed") | result.equals("Login Failed")){
-           Toast.makeText
-                   (
-                           BackgroundWorkerContext.getApplicationContext(),
-                           result,Toast.LENGTH_SHORT
-                   ).show();
-       }
+                                                        }
+       else{
+                Toast.makeText
+                       (
+                               BackgroundWorkerContext.getApplicationContext(),
+                               result,Toast.LENGTH_SHORT
+                       ).show();
+                Log.d("JSon",result);
+           }
     }
 
     @Override
