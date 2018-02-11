@@ -10,12 +10,12 @@
        android:id="@+id/Login_email"
        android:layout_width="100dp"
        android:layout_height="wrap_content"
-       android:text="Email"/>
+       android:hint="Email"/>
     <EditText
         android:id="@+id/Login_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:hint="Password"
         android:layout_below="@+id/Login_email"/>
 
         <LinearLayout
