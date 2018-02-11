@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignIn"/>
-        <activity android:name=".UniqueIdGenerator"></activity>
+        <activity android:name=".AadharCard"></activity>
     </application>
 
 </manifest>

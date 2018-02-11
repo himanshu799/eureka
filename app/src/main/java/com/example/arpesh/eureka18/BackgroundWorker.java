@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
@@ -75,6 +76,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
         }
         if(strings[0].equals("register")){
+            Log.d("JSP",strings[0]);
                 return getServerResponse(strings[1]);
         }
 
@@ -82,34 +84,49 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
     }
 
     private String getServerResponse(String json) {
+
         String SignIN_Url = "https://eureka18.000webhostapp.com/Register.php";
+        Log.d("JSP",SignIN_Url);
         String data ="";
         try {
             URL url = new URL(SignIN_Url);
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoOutput(true);
             httpURLConnection.setDoInput(true);
+            httpURLConnection.setFixedLengthStreamingMode(json.getBytes().length);
+            httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+            Log.d("JSP",httpURLConnection.getRequestProperties().toString());
+            httpURLConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+            Log.d("JSP",httpURLConnection.getRequestProperties().toString());
+            httpURLConnection.connect();
 
             DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-            wr.writeBytes(json);
+            Log.d("JSP",wr.toString());
+            wr.write(json.getBytes());
+            Log.d("JSP",wr.toString());
             wr.flush();
-            wr.close();
+
 
             InputStream in = httpURLConnection.getInputStream();
+            Log.d("JSP",in.toString());
             InputStreamReader inputStreamReader = new InputStreamReader(in);
-
+            Log.d("JSP",inputStreamReader.toString());
             int inputStreamData = inputStreamReader.read();
+            Log.d("JSPppp", String.valueOf(inputStreamData));
             while (inputStreamData != -1) {
                 char current = (char) inputStreamData;
                 inputStreamData = inputStreamReader.read();
                 data += current;}
+                wr.close();
+                in.close();
 
 
 
     } catch (MalformedURLException e) {
-            Log.d("JSon",e.toString());
+            Log.d("JSon1",e.toString());
         } catch (IOException e) {
-            Log.d("JSon",e.toString());
+            Log.d("JSon2",e.toString());
         }
         return data;
     }
@@ -125,25 +142,26 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
     @Override
     protected void onPostExecute(String result) {
-       if(result.equals("Login Sucessful")|result.equals(null)){
+
+       if(result.equals("Login Successful")){
            Toast.makeText(BackgroundWorkerContext.getApplicationContext(),result,Toast.LENGTH_SHORT).show();
            BackgroundWorkerContext.startActivity(
                    new Intent
                    (
                            BackgroundWorkerContext.getApplicationContext(),
-                           com.example.arpesh.eureka18.UniqueIdGenerator.class
-                   ));
+                           AadharCard.class
+                   ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
 
                                                             }
-      else if(result.equals("Registration Sucessful")){
+      else if(result.equals("Registration Successful")){
            Toast.makeText(BackgroundWorkerContext.getApplicationContext(),result,Toast.LENGTH_SHORT).show();
            BackgroundWorkerContext.startActivity(
                    new Intent
                            (
                                    BackgroundWorkerContext.getApplicationContext(),
                                    com.example.arpesh.eureka18.Login.class
-                           ));
+                           ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                                                         }
        else{
                 Toast.makeText
@@ -151,7 +169,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                                BackgroundWorkerContext.getApplicationContext(),
                                result,Toast.LENGTH_SHORT
                        ).show();
-                Log.d("JSon",result);
+                Log.d("JSonresult",result);
            }
     }
 

@@ -2,10 +2,12 @@ package com.example.arpesh.eureka18;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,7 +53,7 @@ public class SignIn extends AppCompatActivity{
     }
 
     private String FormatDataASJSon() throws JSONException {
-        final JSONObject user = new JSONObject();
+       final JSONObject user = new JSONObject();
         String UserName = InputUserName.getText().toString().trim();
         String Fname = InputFname.getText().toString().trim();
         String Lname = InputLname.getText().toString().trim();
@@ -60,12 +62,14 @@ public class SignIn extends AppCompatActivity{
         String Password = InputPassword.getText().toString().trim();
         int Mobileno = Integer.parseInt(inputMobileno);
 
-        user.put("User_FName", Fname);
-        user.put("User_LastName", Lname);
-        user.put("User_MobileNo",Mobileno);
         user.put("User_Email",Email);
+        user.put("User_Fname",Fname);
+        user.put( "User_Lname",Lname);
+        user.put("User_MobileNo",Mobileno);
         user.put("User_UserName",UserName);
-        user.put("User_UserPassword",Password);
-        return user.toString();
+        user.put("User_Password",Password);
+        Log.d("JSp",user.toString(1));
+
+        return user.toString(1);
     }
 }
