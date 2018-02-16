@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigInteger;
+
 /**
  * Created by arpesh on 5/2/18 3:22 AM Eureka18.
  */
@@ -61,11 +63,12 @@ public class SignIn extends AppCompatActivity{
         String Email = InputEmail.getText().toString().trim();
         String Password = InputPassword.getText().toString().trim();
         int Mobileno = Integer.parseInt(inputMobileno);
+        BigInteger mobileNO = BigInteger.valueOf(Mobileno);
 
         user.put("User_Email",Email);
         user.put("User_Fname",Fname);
         user.put( "User_Lname",Lname);
-        user.put("User_MobileNo",Mobileno);
+        user.put("User_MobileNo",mobileNO);
         user.put("User_UserName",UserName);
         user.put("User_Password",Password);
         Log.d("JSp",user.toString(1));

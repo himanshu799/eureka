@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class AadharCard extends AppCompatActivity {
     private EditText inputAadhar;
     private Button OKay;
@@ -21,13 +24,25 @@ public class AadharCard extends AppCompatActivity {
         OKay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AskDataToServer();
+                try {
+                    AskDataToServer();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private void AskDataToServer() {
-
+    private void AskDataToServer() throws JSONException {
+            String type = "Aadhar";
+            final String Json = FormatDataAsJson();
+            BackgroundWorker backgroundWorker = new BackgroundWorker(getApplicationContext());
+            backgroundWorker.execute(type, Json);
 
     }
+
+    private String FormatDataAsJson() throws JSONException {
+        JSONObject Aadhar = new JSONObject();
+        System.out.println(Aadhar.put("aadhar",inputAadhar.getText().toString().trim()).toString());
+        return Aadhar.put("aadhar",inputAadhar.getText().toString().trim()).toString();   }
 }
