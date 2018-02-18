@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,19 +13,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 /**
  * Created by arpesh on 7/2/18 4:42 AM Eureka18 3:16 AM Eureka18 3:25 AM Eureka18.
@@ -33,13 +28,20 @@ import java.net.URLEncoder;
 public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
     private Context BackgroundWorkerContext;
-    private AlertDialog alertDialog;
+    private TextView MobileNo;
+    private AlertDialog alertDialog , alertDialogOtp;
+
     BackgroundWorker(Context ctx){
         BackgroundWorkerContext = ctx;
+
+    }
+    void textView(TextView textView){
+        this.MobileNo = textView;
     }
 
-        @Override
+    @Override
     protected String doInBackground(String... strings) {
+
         String Login_Url = "https://eureka18.000webhostapp.com/Login.php";
 
         if(strings[0].equals("Login")){
@@ -103,6 +105,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
     private String getNumberFServer(String json) {
         String Aadhar_Url = "https://eureka18.000webhostapp.com/aadhar.php";
         String data="";
+        String mobile= null;
         try {
             URL url = new URL(Aadhar_Url);
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
@@ -131,13 +134,13 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                 data += current;}
             JSONArray jsonarray = new JSONArray(data);
             JSONObject jsonobject = jsonarray.getJSONObject(0);
-            String mobile = jsonobject.getString("phone_no");
+             mobile = jsonobject.getString("phone_no");
                 Log.d("Mobile no",mobile);
 
                 dataOutputStream .close();
             inputStream.close();
 
-            return mobile;
+
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -146,7 +149,8 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return data;
+        Log.d("Mobile no", mobile);
+        return mobile;
 
     }
 
@@ -203,12 +207,15 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
 
         alertDialog = new AlertDialog.Builder(BackgroundWorkerContext).create();
+        alertDialogOtp = new AlertDialog.Builder(BackgroundWorkerContext).create();
+        alertDialogOtp.setTitle("Your mobile no");
         alertDialog.setTitle("Login Status");
     }
 
 
     @Override
     protected void onPostExecute(String result) {
+
         System.out.println(result);
 
         switch (result) {
@@ -243,6 +250,13 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                 Log.d("JSonresult", result);
                 break;
             default:
+
+              //  alertDialogOtp.setMessage("+91"+result);
+                //alertDialogOtp.getButton(R.id.LoginButton);
+                //alertDialogOtp.show();
+                MobileNo.setVisibility(View.VISIBLE);
+                MobileNo.setText(result);
+
                 break;
         }
     }
