@@ -5,20 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 /**
  * Created by arpesh on 7/2/18 4:42 AM Eureka18 3:16 AM Eureka18 3:25 AM Eureka18.
@@ -27,89 +28,176 @@ import java.net.URLEncoder;
 public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
     private Context BackgroundWorkerContext;
-    private AlertDialog alertDialog;
+    private TextView MobileNo;
+    private AlertDialog alertDialog , alertDialogOtp;
+
     BackgroundWorker(Context ctx){
         BackgroundWorkerContext = ctx;
+
+    }
+    void textView(TextView textView){
+        this.MobileNo = textView;
     }
 
-        @Override
+    @Override
     protected String doInBackground(String... strings) {
-        String Login_Url = "https://eureka18.000webhostapp.com/login.php";
+
+        String Login_Url = "https://eureka18.000webhostapp.com/Login.php";
 
         if(strings[0].equals("Login")){
+            String data ="";
             try {
-                String user_name = strings[1];
-                String Password = strings[2];
                 URL url = new URL(Login_Url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter
-                        (new OutputStreamWriter(outputStream,"UTF-8"));
-                String post_data = URLEncoder.encode("user_name","UTF-8")+"="+URLEncoder.encode(user_name,"UTF-8")+
-                        "&"+
-                        URLEncoder.encode("Password","UTF-8")+"="+URLEncoder.encode(Password,"UTF-8");
-                bufferedWriter.write(post_data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
-                String result="";
-                String line;
-                while((line = bufferedReader.readLine())!= null) {
-                    result += line;
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return result;
-            } catch (MalformedURLException e) {
-                Log.d("JSon",e.toString());
-            } catch (IOException e) {
-                Log.d("JSon",e.toString());
-            }
+                httpURLConnection.setFixedLengthStreamingMode(strings[1].getBytes().length);
+                httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+                Log.d("JSP",httpURLConnection.getRequestProperties().toString());
+                httpURLConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+                Log.d("JSP",httpURLConnection.getRequestProperties().toString());
+                httpURLConnection.setRequestProperty("Connection", "close");
+                httpURLConnection.connect();
 
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                Log.d("JSP",wr.toString());
+                wr.write(strings[1].getBytes());
+                Log.d("JSP",wr.toString());
+                wr.flush();
+
+
+                InputStream in = httpURLConnection.getInputStream();
+                Log.d("JSP",in.toString());
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+                Log.d("JSP",inputStreamReader.toString());
+                int inputStreamData = inputStreamReader.read();
+                Log.d("JSPppp", String.valueOf(inputStreamData));
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;}
+                wr.close();
+                in.close();
+
+
+
+            } catch (MalformedURLException e) {
+                Log.d("JSon1",e.toString());
+            } catch (IOException e) {
+                Log.d("JSon2",e.toString());
+            }
+            return data;
 
         }
         if(strings[0].equals("register")){
+            Log.d("JSP",strings[0]);
                 return getServerResponse(strings[1]);
+        }
+        if(strings[0].equals("Aadhar")){
+            return getNumberFServer(strings[1]);
+
         }
 
        return null;
     }
 
-    private String getServerResponse(String json) {
-        String SignIN_Url = "https://eureka18.000webhostapp.com/Register.php";
-        String data ="";
+    private String getNumberFServer(String json) {
+        String Aadhar_Url = "https://eureka18.000webhostapp.com/aadhar.php";
+        String data="";
+        String mobile= null;
         try {
-            URL url = new URL(SignIN_Url);
+            URL url = new URL(Aadhar_Url);
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoInput(true);
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+            httpURLConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+            httpURLConnection.connect();
+            DataOutputStream dataOutputStream
+                    = new DataOutputStream(httpURLConnection.getOutputStream());
 
-            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-            wr.writeBytes(json);
-            wr.flush();
-            wr.close();
+            dataOutputStream.writeBytes(json);
+            dataOutputStream.flush();
 
-            InputStream in = httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+
+            InputStream inputStream = httpURLConnection.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
             int inputStreamData = inputStreamReader.read();
+            Log.d("inputstream", String.valueOf(inputStreamData));
             while (inputStreamData != -1) {
                 char current = (char) inputStreamData;
                 inputStreamData = inputStreamReader.read();
                 data += current;}
+            JSONArray jsonarray = new JSONArray(data);
+            JSONObject jsonobject = jsonarray.getJSONObject(0);
+             mobile = jsonobject.getString("phone_no");
+                Log.d("Mobile no",mobile);
+
+                dataOutputStream .close();
+            inputStream.close();
+
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("Mobile no", mobile);
+        return mobile;
+
+    }
+
+    private String getServerResponse(String json) {
+
+        String SignIN_Url = "https://eureka18.000webhostapp.com/Register.php";
+        Log.d("JSP",SignIN_Url);
+        String data ="";
+        try {
+            URL url = new URL(SignIN_Url);
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.setFixedLengthStreamingMode(json.getBytes().length);
+            httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+            Log.d("JSP",httpURLConnection.getRequestProperties().toString());
+            httpURLConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+            Log.d("JSP",httpURLConnection.getRequestProperties().toString());
+            httpURLConnection.connect();
+
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            Log.d("JSP",wr.toString());
+            wr.write(json.getBytes());
+            Log.d("JSP",wr.toString());
+            wr.flush();
+
+
+            InputStream in = httpURLConnection.getInputStream();
+            Log.d("JSP",in.toString());
+            InputStreamReader inputStreamReader = new InputStreamReader(in);
+            Log.d("JSP",inputStreamReader.toString());
+            int inputStreamData = inputStreamReader.read();
+            Log.d("JSPppp", String.valueOf(inputStreamData));
+            while (inputStreamData != -1) {
+                char current = (char) inputStreamData;
+                inputStreamData = inputStreamReader.read();
+                data += current;}
+                wr.close();
+                in.close();
 
 
 
     } catch (MalformedURLException e) {
-            Log.d("JSon",e.toString());
+            Log.d("JSon1",e.toString());
         } catch (IOException e) {
-            Log.d("JSon",e.toString());
+            Log.d("JSon2",e.toString());
         }
         return data;
     }
@@ -119,40 +207,58 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
 
         alertDialog = new AlertDialog.Builder(BackgroundWorkerContext).create();
+        alertDialogOtp = new AlertDialog.Builder(BackgroundWorkerContext).create();
+        alertDialogOtp.setTitle("Your mobile no");
         alertDialog.setTitle("Login Status");
     }
 
 
     @Override
     protected void onPostExecute(String result) {
-       if(result.equals("Login Sucessful")|result.equals(null)){
-           Toast.makeText(BackgroundWorkerContext.getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-           BackgroundWorkerContext.startActivity(
-                   new Intent
-                   (
-                           BackgroundWorkerContext.getApplicationContext(),
-                           com.example.arpesh.eureka18.UniqueIdGenerator.class
-                   ));
+
+        System.out.println(result);
+
+        switch (result) {
+            case "Login Successful":
+                Toast.makeText(BackgroundWorkerContext.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                BackgroundWorkerContext.startActivity(
+                        new Intent
+                                (
+                                        BackgroundWorkerContext.getApplicationContext(),
+                                        AadharCard.class
+                                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
 
-                                                            }
-      else if(result.equals("Registration Sucessful")){
-           Toast.makeText(BackgroundWorkerContext.getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-           BackgroundWorkerContext.startActivity(
-                   new Intent
-                           (
-                                   BackgroundWorkerContext.getApplicationContext(),
-                                   com.example.arpesh.eureka18.Login.class
-                           ));
-                                                        }
-       else{
+                break;
+            case "Registration Successful":
+                Toast.makeText(BackgroundWorkerContext.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                BackgroundWorkerContext.startActivity(
+                        new Intent
+                                (
+                                        BackgroundWorkerContext.getApplicationContext(),
+                                        AadharCard.class
+                                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                break;
+            case "Registration Failed":
+            case "Login Failed":
+            case "null":
                 Toast.makeText
-                       (
-                               BackgroundWorkerContext.getApplicationContext(),
-                               result,Toast.LENGTH_SHORT
-                       ).show();
-                Log.d("JSon",result);
-           }
+                        (
+                                BackgroundWorkerContext.getApplicationContext(),
+                                result, Toast.LENGTH_SHORT
+                        ).show();
+                Log.d("JSonresult", result);
+                break;
+            default:
+
+              //  alertDialogOtp.setMessage("+91"+result);
+                //alertDialogOtp.getButton(R.id.LoginButton);
+                //alertDialogOtp.show();
+                MobileNo.setVisibility(View.VISIBLE);
+                MobileNo.setText(result);
+
+                break;
+        }
     }
 
     @Override
