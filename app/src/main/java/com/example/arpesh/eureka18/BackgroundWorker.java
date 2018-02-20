@@ -2,10 +2,14 @@ package com.example.arpesh.eureka18;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +49,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
         String Login_Url = "https://eureka18.000webhostapp.com/Login.php";
 
         if(strings[0].equals("Login")){
-            String data ="";
+            String data = "";
             try {
                 URL url = new URL(Login_Url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
@@ -76,7 +80,8 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                 while (inputStreamData != -1) {
                     char current = (char) inputStreamData;
                     inputStreamData = inputStreamReader.read();
-                    data += current;}
+                    data += current;
+                Log.d("Data", data);}
                 wr.close();
                 in.close();
 
@@ -131,7 +136,8 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
             while (inputStreamData != -1) {
                 char current = (char) inputStreamData;
                 inputStreamData = inputStreamReader.read();
-                data += current;}
+                data += current;
+            System.out.println("Mobile no" +data);}
             JSONArray jsonarray = new JSONArray(data);
             JSONObject jsonobject = jsonarray.getJSONObject(0);
              mobile = jsonobject.getString("phone_no");
@@ -158,7 +164,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
         String SignIN_Url = "https://eureka18.000webhostapp.com/Register.php";
         Log.d("JSP",SignIN_Url);
-        String data ="";
+        String data =null;
         try {
             URL url = new URL(SignIN_Url);
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
@@ -204,10 +210,12 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
         @Override
     protected void onPreExecute() {
+        super.onPreExecute();
 
 
         alertDialog = new AlertDialog.Builder(BackgroundWorkerContext).create();
-        alertDialogOtp = new AlertDialog.Builder(BackgroundWorkerContext).create();
+       // alertDialogOtp.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        alertDialogOtp = new AlertDialog.Builder(BackgroundWorkerContext.getApplicationContext()).create();
         alertDialogOtp.setTitle("Your mobile no");
         alertDialog.setTitle("Login Status");
     }
@@ -215,11 +223,26 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
     @Override
     protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+       // System.out.println(result);
 
-        System.out.println(result);
 
-        switch (result) {
-            case "Login Successful":
+        if (result == null) {
+            Toast.makeText
+                    (
+                            BackgroundWorkerContext.getApplicationContext(),
+                            "Failed....", Toast.LENGTH_SHORT
+                    ).show();
+          //  Log.d("JSonresult", result);
+        } else if (result.equals("Registration Failed") || result.equals("Login Failed")) {
+            Toast.makeText
+                    (
+                            BackgroundWorkerContext.getApplicationContext(),
+                            "Failed....", Toast.LENGTH_SHORT
+                    ).show();
+        //    Log.d("JSonresult", result);
+        } else {
+            if (result.equals("Registration Successful")) {
                 Toast.makeText(BackgroundWorkerContext.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                 BackgroundWorkerContext.startActivity(
                         new Intent
@@ -227,10 +250,8 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                                         BackgroundWorkerContext.getApplicationContext(),
                                         AadharCard.class
                                 ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            } else if (result.equals("Login Successful")) {
 
-
-                break;
-            case "Registration Successful":
                 Toast.makeText(BackgroundWorkerContext.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                 BackgroundWorkerContext.startActivity(
                         new Intent
@@ -238,28 +259,18 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                                         BackgroundWorkerContext.getApplicationContext(),
                                         AadharCard.class
                                 ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                break;
-            case "Registration Failed":
-            case "Login Failed":
-            case "null":
-                Toast.makeText
-                        (
-                                BackgroundWorkerContext.getApplicationContext(),
-                                result, Toast.LENGTH_SHORT
-                        ).show();
-                Log.d("JSonresult", result);
-                break;
-            default:
+            } else {
 
-              //  alertDialogOtp.setMessage("+91"+result);
-                //alertDialogOtp.getButton(R.id.LoginButton);
-                //alertDialogOtp.show();
-                MobileNo.setVisibility(View.VISIBLE);
-                MobileNo.setText(result);
+                Intent intent = new Intent(BackgroundWorkerContext.getApplicationContext(),OtpForUser.class);
+                intent.putExtra("Mobile no",result);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                BackgroundWorkerContext.startActivities(new Intent[]{intent});
 
-                break;
+            }
         }
-    }
+
+        }
+
 
     @Override
     protected void onProgressUpdate(Void... values) {
