@@ -34,6 +34,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
     private Context BackgroundWorkerContext;
     private TextView MobileNo;
     private AlertDialog alertDialog , alertDialogOtp;
+    private String mAadhar;
 
     BackgroundWorker(Context ctx){
         BackgroundWorkerContext = ctx;
@@ -100,6 +101,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                 return getServerResponse(strings[1]);
         }
         if(strings[0].equals("Aadhar")){
+            mAadhar = strings[1];
             return getNumberFServer(strings[1]);
 
         }
@@ -241,8 +243,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                             "Failed....", Toast.LENGTH_SHORT
                     ).show();
         //    Log.d("JSonresult", result);
-        } else {
-            if (result.equals("Registration Successful")) {
+        } else if (result.equals("Registration Successful")) {
                 Toast.makeText(BackgroundWorkerContext.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
                 BackgroundWorkerContext.startActivity(
                         new Intent
@@ -261,15 +262,23 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                                 ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             } else {
 
-                Intent intent = new Intent(BackgroundWorkerContext.getApplicationContext(),OtpForUser.class);
-                intent.putExtra("Mobile no",result);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                BackgroundWorkerContext.startActivities(new Intent[]{intent});
-
+                Intent intent = new Intent(BackgroundWorkerContext.getApplicationContext(), OtpForUser.class);
+                intent.putExtra("Mobile no", result);
+                JSONArray jsonarray ;
+                try {
+                    jsonarray = new JSONArray(mAadhar);
+                    JSONObject jsonobject = jsonarray.getJSONObject(0);
+                    String Aadhar = jsonobject.getString("aadhar");
+                    intent.putExtra("Aadhar no", Aadhar);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    BackgroundWorkerContext.startActivities(new Intent[]{intent});
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
-        }
+
 
 
     @Override
