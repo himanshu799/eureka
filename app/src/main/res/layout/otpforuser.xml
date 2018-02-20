@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/OtpForUser_MobileNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MobileNO"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="16dp" />
+    <EditText
+        android:id="@+id/OtpForUser_OTP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="OTP"
+        android:layout_below="@id/OtpForUser_MobileNo"/>
+    <Button
+        android:id="@+id/OtpForUser_OTPBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VErify"
+        android:layout_below="@id/OtpForUser_OTP"/>
+</RelativeLayout>

@@ -34,17 +34,24 @@ public class AadharCard extends AppCompatActivity {
                     AskDataToServer();
 
 
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+
+        }
+
+
+    private void fetchDataFromServer() {
         String InputMobile = MobileNo.getText().toString().trim();
         System.out.println("Mobile no"+" "+InputMobile);
         if(!InputMobile.equals("")) {
             Long Mobile = Long.parseLong(InputMobile);
             System.out.println("Mobile no" + " " + Mobile);
-        }
+                      }
+
     }
 
     private void AskDataToServer() throws JSONException {
