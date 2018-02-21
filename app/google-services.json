@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "488880737811",
+    "firebase_url": "https://eureka18-52575.firebaseio.com",
+    "project_id": "eureka18-52575",
+    "storage_bucket": "eureka18-52575.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488880737811:android:a994a6b7be7dff72",
+        "android_client_info": {
+          "package_name": "com.example.arpesh.eureka18"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488880737811-rqe776k39nfoiioqqr61d3svfr26b3s3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arpesh.eureka18",
+            "certificate_hash": "ecf07856bc51a94bf481ebebb27d8a363601a19b"
+          }
+        },
+        {
+          "client_id": "488880737811-qipab46ln9uqegp3tq2spo9oej90mqnd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASLLPe_C-WD__dk03ABN55BOu8T82bXPA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488880737811-qipab46ln9uqegp3tq2spo9oej90mqnd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
