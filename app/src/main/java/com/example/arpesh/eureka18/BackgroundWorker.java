@@ -264,11 +264,10 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
                 Intent intent = new Intent(BackgroundWorkerContext.getApplicationContext(), OtpForUser.class);
                 intent.putExtra("Mobile no", result);
-                JSONArray jsonarray ;
+                JSONObject jsonObject;
                 try {
-                    jsonarray = new JSONArray(mAadhar);
-                    JSONObject jsonobject = jsonarray.getJSONObject(0);
-                    String Aadhar = jsonobject.getString("aadhar");
+                    jsonObject = new JSONObject(mAadhar);
+                    String Aadhar = jsonObject.getString("aadhar");
                     intent.putExtra("Aadhar no", Aadhar);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     BackgroundWorkerContext.startActivities(new Intent[]{intent});

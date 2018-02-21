@@ -60,8 +60,8 @@ public class OtpForUser extends AppCompatActivity {
 
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
                             mNumbers,
-                            4,
-                            TimeUnit.MINUTES,
+                            120,
+                            TimeUnit.SECONDS,
                             OtpForUser.this,
                             mCallBacks
                     );
