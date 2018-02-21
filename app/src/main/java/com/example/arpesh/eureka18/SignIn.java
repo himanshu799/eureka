@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +21,7 @@ import java.math.BigInteger;
 public class SignIn extends AppCompatActivity{
     private EditText InputFname, InputLname,InputMobileno, InputEmail, InputPassword ,InputUserName ;
     private Button SignIn;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -27,6 +29,7 @@ public class SignIn extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+        progressBar = findViewById(R.id.ProgressBar);
         InputUserName = findViewById(R.id.activity_signin_UserName);
         InputFname = findViewById(R.id.activity_signin_FirstName);
         InputLname = findViewById(R.id.activity_signin_LastName);
@@ -50,6 +53,7 @@ public class SignIn extends AppCompatActivity{
 
         final String Json = FormatDataASJSon();
         BackgroundWorker ObjBackgroundWorker = new BackgroundWorker(getApplicationContext());
+        ObjBackgroundWorker.Views(progressBar);
         ObjBackgroundWorker.execute(type,Json);
 
     }

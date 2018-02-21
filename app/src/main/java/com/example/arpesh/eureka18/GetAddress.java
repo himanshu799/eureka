@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -20,14 +21,27 @@ public class GetAddress extends AppCompatActivity {
     private TextView mAddress;
     private Button mFetch;
     private ProgressBar progressBar;
-    private  int BtnTyp = 0 ;
+   // private Boolean isUpdate;
     private String Aadhar;
+    void string(String s){
+        this.Aadhar = s;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.getaddress);
         progressBar = findViewById(R.id.GetAddress_ProgressBar);
-        Aadhar = getIntent().getExtras().getString("Aadhar no");
+//        Bundle bundle = getIntent().getExtras();
+//        if (bundle!= null) {// to avoid the NullPointerException
+//              isUpdate=bundle.getBoolean("update");
+//            if(isUpdate)
+//            {
+//                Aadhar = bundle.getString("Aadhar no");
+//                Log.d("Aadhar no in GetAddress",Aadhar);
+//
+//            }
+//        }
+
         mAddress = findViewById(R.id.GetAddress_textView);
         mFetch = findViewById(R.id.GetAddress_Btn);
         mFetch.setOnClickListener(new View.OnClickListener() {

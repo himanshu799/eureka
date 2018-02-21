@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -18,11 +19,13 @@ public class AadharCard extends AppCompatActivity {
     private EditText inputAadhar;
     private Button OKay;
     private TextView MobileNo;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aadharcard);
+        progressBar = findViewById(R.id.ProgressBar);
         inputAadhar = findViewById(R.id.UniqueID_EditText);
         MobileNo = findViewById(R.id.UniqueID_MobileNO);
         OKay = findViewById(R.id.UniqueID_BUTTON);
@@ -31,6 +34,9 @@ public class AadharCard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
+
+                    GetAddress getAddress = new GetAddress();
+                    getAddress.string(inputAadhar.getText().toString());
                     AskDataToServer();
 
 
@@ -44,21 +50,15 @@ public class AadharCard extends AppCompatActivity {
         }
 
 
-    private void fetchDataFromServer() {
-        String InputMobile = MobileNo.getText().toString().trim();
-        System.out.println("Mobile no"+" "+InputMobile);
-        if(!InputMobile.equals("")) {
-            Long Mobile = Long.parseLong(InputMobile);
-            System.out.println("Mobile no" + " " + Mobile);
-                      }
 
-    }
+
 
     private void AskDataToServer() throws JSONException {
             String type = "Aadhar";
             final String Json = FormatDataAsJson();
             BackgroundWorker backgroundWorker = new BackgroundWorker(getApplicationContext());
             backgroundWorker.textView(MobileNo);
+            backgroundWorker.Views(progressBar);
             backgroundWorker.execute(type, Json);
 
 

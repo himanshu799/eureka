@@ -27,7 +27,7 @@ import java.net.URL;
 
 public class AddressBackground extends AsyncTask<String,Void , String> {
 
-    private Context context;
+    protected  Context context;
     private   String Address = "";
     private   String State = "";
     private   String Pincode = "";
@@ -54,7 +54,7 @@ public class AddressBackground extends AsyncTask<String,Void , String> {
     @Override
     protected String doInBackground(String... strings) {
         if(strings[0].equals("GetAddress")){
-            String GetAddress_URl = "";
+            String GetAddress_URl = "https://eureka18.000webhostapp.com/aadhar_detail.php";
             String data="";
 
             try {
@@ -116,7 +116,7 @@ public class AddressBackground extends AsyncTask<String,Void , String> {
         if(result.length()>6){
             progressBar1.setVisibility(View.INVISIBLE);
             textView1.setText(result);
-            btn.setText("Correct");
+
             btn.setEnabled(true);
         }
     }
