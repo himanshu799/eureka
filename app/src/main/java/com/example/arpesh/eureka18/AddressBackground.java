@@ -84,15 +84,21 @@ public class AddressBackground extends AsyncTask<String,Void , String> {
                     inputStreamData = inputStreamReader.read();
                     data += current;
                     System.out.println("Mobile no" +data);}
-                JSONArray jsonarray = new JSONArray(data);
-                JSONObject jsonobject = jsonarray.getJSONObject(0);
-                Address = jsonobject.getString("Address");
-                State = jsonobject.getString("State");
-                Pincode = jsonobject.getString("Pincode");
+//                JSONArray myListsAll= new JSONArray(myjsonstring);
+//                for(int i=0;i<myListsAll.length();i++){
+//                    JSONObject jsonobject= (JSONObject) myListsAll.get(i);
+//                    String id=jsonobject("nid");
+//                    String value1=jsonobject.optString("field_mc_bacheliers_value");
+//                    String value2=jsonobject.optString("field_mc_defi_collectif_value");
+                    JSONArray jsonarray = new JSONArray(data);
+                JSONObject jsonobject = (JSONObject) jsonarray.get(0);
+                Address = jsonobject.optString("address");
+                State = jsonobject.optString("state");
+                Pincode = jsonobject.optString("pin_code");
                 Log.d("Address",Address);
                 Log.d("State",State);
                 Log.d("Pincode",Pincode);
-                 data = Address +""+State+"-"+Pincode;
+                 data = Address +" "+State+"-"+Pincode;
 
                 dataOutputStream .close();
                 inputStream.close();
@@ -118,6 +124,7 @@ public class AddressBackground extends AsyncTask<String,Void , String> {
             textView1.setText(result);
 
             btn.setEnabled(true);
+
         }
     }
 }
