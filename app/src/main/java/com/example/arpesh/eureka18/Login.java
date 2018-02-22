@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,11 +14,13 @@ import org.json.JSONObject;
 public class Login extends AppCompatActivity {
     private EditText inputUserName, inputPassword;
     private Button Login , SignIn;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        progressBar = findViewById(R.id.ProgressBar);
         inputUserName = findViewById(R.id.Login_UserName);
         inputPassword = findViewById(R.id.Login_password);
         Login = findViewById(R.id.LoginButton);
@@ -48,6 +51,7 @@ public class Login extends AppCompatActivity {
         user.put("User_Password",Password);
         String type ="Login";
         BackgroundWorker ObjBackgroundWorker = new BackgroundWorker(getApplicationContext());
+        ObjBackgroundWorker.Views(progressBar);
         ObjBackgroundWorker.execute(type ,user.toString());
 
     }

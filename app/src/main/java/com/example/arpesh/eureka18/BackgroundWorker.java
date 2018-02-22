@@ -1,5 +1,6 @@
 package com.example.arpesh.eureka18;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,13 +35,18 @@ import java.net.URL;
 public class BackgroundWorker extends AsyncTask<String, Void , String> {
 
     private Context BackgroundWorkerContext;
-    private TextView MobileNo;
-    private AlertDialog alertDialog , alertDialogOtp;
-    private String mAadhar;
+
+    protected TextView MobileNo;
+
+    private ProgressBar progressBar1;
+
 
     BackgroundWorker(Context ctx){
         BackgroundWorkerContext = ctx;
 
+    }
+    void Views( ProgressBar progressBar){
+        this.progressBar1 = progressBar;
     }
     void textView(TextView textView){
         this.MobileNo = textView;
@@ -101,7 +109,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                 return getServerResponse(strings[1]);
         }
         if(strings[0].equals("Aadhar")){
-            mAadhar = strings[1];
+
             return getNumberFServer(strings[1]);
 
         }
@@ -139,7 +147,7 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                 char current = (char) inputStreamData;
                 inputStreamData = inputStreamReader.read();
                 data += current;
-            System.out.println("Mobile no" +data);}
+            System.out.println("Mobile no " +data);}
             JSONArray jsonarray = new JSONArray(data);
             JSONObject jsonobject = jsonarray.getJSONObject(0);
              mobile = jsonobject.getString("phone_no");
@@ -214,18 +222,15 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
     protected void onPreExecute() {
         super.onPreExecute();
 
+            progressBar1.setVisibility(View.VISIBLE);
 
-        alertDialog = new AlertDialog.Builder(BackgroundWorkerContext).create();
-       // alertDialogOtp.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        alertDialogOtp = new AlertDialog.Builder(BackgroundWorkerContext.getApplicationContext()).create();
-        alertDialogOtp.setTitle("Your mobile no");
-        alertDialog.setTitle("Login Status");
     }
 
 
     @Override
     protected void onPostExecute(String result) {
             super.onPostExecute(result);
+        progressBar1.setVisibility(View.INVISIBLE);
        // System.out.println(result);
 
 
@@ -236,44 +241,58 @@ public class BackgroundWorker extends AsyncTask<String, Void , String> {
                             "Failed....", Toast.LENGTH_SHORT
                     ).show();
           //  Log.d("JSonresult", result);
-        } else if (result.equals("Registration Failed") || result.equals("Login Failed")) {
+        }
+        else if (result.equals("Registration Failed") || result.equals("Login Failed"))
+        {
+            progressBar1.setVisibility(View.INVISIBLE);
             Toast.makeText
                     (
                             BackgroundWorkerContext.getApplicationContext(),
                             "Failed....", Toast.LENGTH_SHORT
                     ).show();
         //    Log.d("JSonresult", result);
-        } else if (result.equals("Registration Successful")) {
-                Toast.makeText(BackgroundWorkerContext.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+        }
+
+        else if (result.equals("Registration Successful"))
+        {
+            progressBar1.setVisibility(View.INVISIBLE);
+                Toast.makeText
+                        (BackgroundWorkerContext.getApplicationContext()
+                                     , result, Toast.LENGTH_SHORT).show();
+
                 BackgroundWorkerContext.startActivity(
                         new Intent
                                 (
                                         BackgroundWorkerContext.getApplicationContext(),
                                         AadharCard.class
                                 ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            } else if (result.equals("Login Successful")) {
+            }
 
-                Toast.makeText(BackgroundWorkerContext.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+            else if (result.equals("Login Successful"))
+            {
+
+                progressBar1.setVisibility(View.INVISIBLE);
+                Toast.makeText
+                        (BackgroundWorkerContext.getApplicationContext()
+                                         , result, Toast.LENGTH_SHORT).show();
+
                 BackgroundWorkerContext.startActivity(
                         new Intent
                                 (
                                         BackgroundWorkerContext.getApplicationContext(),
                                         AadharCard.class
                                 ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            } else {
+            }
 
+            else
+            {
+
+                progressBar1.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(BackgroundWorkerContext.getApplicationContext(), OtpForUser.class);
                 intent.putExtra("Mobile no", result);
-                JSONObject jsonObject;
-                try {
-                    jsonObject = new JSONObject(mAadhar);
-                    String Aadhar = jsonObject.getString("aadhar");
-                    intent.putExtra("Aadhar no", Aadhar);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     BackgroundWorkerContext.startActivities(new Intent[]{intent});
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
             }
         }
 
