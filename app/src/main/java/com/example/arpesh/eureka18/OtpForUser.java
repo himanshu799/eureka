@@ -54,9 +54,10 @@ public class OtpForUser extends AppCompatActivity {
         mVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "OTP Sent", Toast.LENGTH_SHORT).show();
+
                 if (btnType == 0) {
 
+                    Toast.makeText(getApplicationContext(), "OTP Sent", Toast.LENGTH_SHORT).show();
 
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
                             mNumbers,
@@ -68,8 +69,11 @@ public class OtpForUser extends AppCompatActivity {
 
                 } else {
                   //  mVerify.setText("Enter OTP");
+                    Toast.makeText(getApplicationContext(), "Verifying OTP", Toast.LENGTH_SHORT).show();
 
-                    String OTP = mVerify.getText().toString();
+                    String OTP = mOtp.getText().toString();
+                    System.out.println("OTP came" + OTP);
+
 
                     PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationID, OTP);
                     signInWithPhoneAuthCredential(credential);
