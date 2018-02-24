@@ -1,44 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    >
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="300dp"
+        >
 
    <EditText
        android:id="@+id/Login_UserName"
-       android:layout_width="100dp"
+       android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:hint="Email"/>
+       android:inputType="textEmailAddress"
+       android:background="@android:color/transparent"
+       android:drawablePadding="12dp"
+       android:padding="8dp"
+       android:hint="Email "
+       android:textColorHint="#ffffff"
+       android:layout_marginTop="150dp"
+       android:layout_marginLeft="30dp"
+       />
+
     <EditText
         android:id="@+id/Login_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:background="@android:color/transparent"
+        android:drawablePadding="12dp"
+        android:padding="8dp"
+        android:textColorHint="#ffffff"
         android:hint="Password"
-        android:layout_below="@+id/Login_UserName"/>
+        android:layout_below="@id/Login_UserName"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        />
 
-        <LinearLayout
-            android:id="@+id/Login_linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/Login_password">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f9d7db"
+            android:layout_below="@id/Login_UserName"
+            android:layout_marginLeft="10dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f9d7db"
+            android:layout_below="@+id/Login_password"
+            android:layout_marginLeft="10dp"/>
+
+
+
+
             <Button
                 android:id="@+id/LoginButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="|"/>
+                android:text="Login"
+                android:textColor="#f16f7d"
+                android:background="@drawable/buttonstyle1"
+                android:layout_below="@id/Login_password"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                style="@style/Base.TextAppearance.AppCompat.Body1"/>
+
             <Button
                 android:id="@+id/SignInButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="sign IN"/>
-        </LinearLayout>
+                android:text="sign IN"
+                android:textColor="#f16f7d"
+                android:layout_below="@id/LoginButton"
+                android:background="@drawable/buttonstyle1"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                style="@style/Base.TextAppearance.AppCompat.Body1"/>
     </RelativeLayout>
 
 </ScrollView>
