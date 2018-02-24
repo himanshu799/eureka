@@ -27,7 +27,7 @@ import java.net.URL;
 
 public class AddressBackground extends AsyncTask<String,Void , String> {
 
-    private Context context;
+    protected  Context context;
     private   String Address = "";
     private   String State = "";
     private   String Pincode = "";
@@ -54,7 +54,7 @@ public class AddressBackground extends AsyncTask<String,Void , String> {
     @Override
     protected String doInBackground(String... strings) {
         if(strings[0].equals("GetAddress")){
-            String GetAddress_URl = "";
+            String GetAddress_URl = "https://eureka18.000webhostapp.com/aadhar_detail.php";
             String data="";
 
             try {
@@ -84,15 +84,21 @@ public class AddressBackground extends AsyncTask<String,Void , String> {
                     inputStreamData = inputStreamReader.read();
                     data += current;
                     System.out.println("Mobile no" +data);}
-                JSONArray jsonarray = new JSONArray(data);
-                JSONObject jsonobject = jsonarray.getJSONObject(0);
-                Address = jsonobject.getString("Address");
-                State = jsonobject.getString("State");
-                Pincode = jsonobject.getString("Pincode");
+//                JSONArray myListsAll= new JSONArray(myjsonstring);
+//                for(int i=0;i<myListsAll.length();i++){
+//                    JSONObject jsonobject= (JSONObject) myListsAll.get(i);
+//                    String id=jsonobject("nid");
+//                    String value1=jsonobject.optString("field_mc_bacheliers_value");
+//                    String value2=jsonobject.optString("field_mc_defi_collectif_value");
+                    JSONArray jsonarray = new JSONArray(data);
+                JSONObject jsonobject = (JSONObject) jsonarray.get(0);
+                Address = jsonobject.optString("address");
+                State = jsonobject.optString("state");
+                Pincode = jsonobject.optString("pin_code");
                 Log.d("Address",Address);
                 Log.d("State",State);
                 Log.d("Pincode",Pincode);
-                 data = Address +""+State+"-"+Pincode;
+                 data = Address +" "+State+"-"+Pincode;
 
                 dataOutputStream .close();
                 inputStream.close();
@@ -116,8 +122,9 @@ public class AddressBackground extends AsyncTask<String,Void , String> {
         if(result.length()>6){
             progressBar1.setVisibility(View.INVISIBLE);
             textView1.setText(result);
-            btn.setText("Correct");
+
             btn.setEnabled(true);
+
         }
     }
 }

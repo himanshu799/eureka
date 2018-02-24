@@ -53,11 +53,13 @@
             android:textColor="#f16f7d"
             android:background="@drawable/buttonstyle1"
             android:layout_marginTop="50dp"
-            style="@style/Base.TextAppearance.AppCompat.Body1"
-
-
-            />
-
+            style="@style/Base.TextAppearance.AppCompat.Body/>
+                   
+        <ProgressBar
+            android:id="@+id/ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </ScrollView>
