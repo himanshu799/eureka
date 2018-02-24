@@ -3,23 +3,42 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+
+    >
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
     <TextView
         android:id="@+id/UniqueID_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Your Aadhar Number"/>
+        android:text="Enter Your Aadhar Number"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        />
 
     <EditText
         android:id="@+id/UniqueID_EditText"
-        android:layout_width="wrap_content"
+      android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawablePadding="12dp"
+        android:padding="8dp"
         android:hint="Aadhar Number"
-        android:visibility="visible"/>
+        android:textColorHint="#ffffff"
+
+      />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f9d7db" />
+
+
         <TextView
             android:id="@+id/UniqueID_MobileNO"
             android:layout_width="wrap_content"
@@ -27,9 +46,16 @@
             android:visibility="gone"/>
         <Button
             android:id="@+id/UniqueID_BUTTON"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OKAY"/>
+            android:text="OKAY"
+            android:textColor="#f16f7d"
+            android:background="@drawable/buttonstyle1"
+            android:layout_marginTop="50dp"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+
+
+            />
 
     </LinearLayout>
 
