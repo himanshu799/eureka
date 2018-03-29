@@ -15,7 +15,7 @@
         android:id="@+id/GetAddress_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fetch Address.."
+        android:text="@string/fetch_address"
         android:textSize="50sp"
         />
 
@@ -28,8 +28,8 @@
 
     <Button
         android:id="@+id/GetAddress_Btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fetch"
-        android:background="#0011fc"/>
+        android:backgroundTint="#0011fc"
+        style="@style/button"
+        android:text="@string/fetch"
+        android:background="@drawable/buttonstyle1"/>
 </LinearLayout>

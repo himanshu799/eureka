@@ -1,5 +1,6 @@
 package com.example.arpesh.eureka18;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.widget.ProgressBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Login extends AppCompatActivity {
+public class Login extends Activity {
     private EditText inputUserName, inputPassword;
     private Button Login , SignIn;
     private ProgressBar progressBar;
