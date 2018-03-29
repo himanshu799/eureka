@@ -41,6 +41,7 @@
                            android:theme="@style/TextAppearance.AppCompat"
                             style="@style/equaldivi"
                             app:hintAnimationEnabled="true"
+
                           >
                         <EditText
                             android:id="@+id/activity_signin_FirstName"
