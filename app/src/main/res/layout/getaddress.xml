@@ -3,21 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="15dp"
+    android:background="@drawable/gradient"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
     >
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="1dp"
         android:layout_weight="1">
-    <TextView
-        android:id="@+id/GetAddress_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fetch_address"
-        android:textSize="50sp"
-        />
+        <TextView
+            android:id="@+id/GetAddress_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fetch_address"
+            android:textSize="50sp"
+            android:textColor="@color/black"
+            />
 
     </ScrollView>
     <ProgressBar
@@ -28,8 +30,11 @@
 
     <Button
         android:id="@+id/GetAddress_Btn"
-        android:backgroundTint="#0011fc"
-        style="@style/button"
+
         android:text="@string/fetch"
-        android:background="@drawable/buttonstyle1"/>
+        style="@style/button"
+        android:background="@drawable/buttonstyle1"
+        android:layout_marginBottom="50dp"
+        />
+
 </LinearLayout>

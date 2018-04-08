@@ -15,4 +15,6 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="email">Email</string>
+    <string name="sign_inn">sign IN</string>
+    <string name="todo">TODO</string>
 </resources>

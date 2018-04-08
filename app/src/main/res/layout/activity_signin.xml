@@ -38,7 +38,7 @@
 
 
                         <android.support.design.widget.TextInputLayout
-                           android:theme="@style/TextAppearance.AppCompat"
+
                             style="@style/equaldivi"
                             app:hintAnimationEnabled="true"
                           >
